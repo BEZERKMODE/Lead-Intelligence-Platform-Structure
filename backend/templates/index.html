@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeadIntel — Real-time AI Lead Intelligence Platform</title>
+    
+    <!-- Leaflet.js Mapping CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    
+    <!-- FontAwesome Vector Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    
+    <!-- Premium Local Stylesheet -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- Left Navigation Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <div class="logo-section">
+                    <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <span class="logo-text">LeadIntel AI</span>
+                </div>
+                
+                <ul class="nav-menu">
+                    <li class="nav-item active" id="nav-dashboard">
+                        <a href="#" onclick="switchTab('dashboard')">
+                            <i class="fa-solid fa-gauge-high"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav-leads">
+                        <a href="#" onclick="switchTab('leads')">
+                            <i class="fa-solid fa-users-viewfinder"></i>
+                            <span>Lead Directory</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="nav-scraper">
+                        <a href="#" onclick="switchTab('scraper')">
+                            <i class="fa-solid fa-spider"></i>
+                            <span>AI Web Scraper</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-footer">
+                <p>v2.4.0 • Active Local DB</p>
+            </div>
+        </aside>
+
+        <!-- Main Dashboard View Container -->
+        <main class="main-content">
+            
+            <!-- Global Header Bar -->
+            <header class="top-bar">
+                <div class="title-section">
+                    <h1 id="page-title">Sales Analytics Dashboard</h1>
+                    <p id="page-subtitle">Real-time target account intelligence & automated outreach profiling</p>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="openModal('importModal')">
+                        <i class="fa-solid fa-file-import"></i> Bulk CSV Load
+                    </button>
+                    <button class="btn btn-primary" onclick="openModal('addLeadModal')">
+                        <i class="fa-solid fa-plus"></i> Add Target Domain
+                    </button>
+                </div>
+            </header>
+
+            <!-- Metrics Card Section -->
+            <section class="metrics-grid">
+                <div class="metric-card">
+                    <span class="metric-title">Total Hot Leads</span>
+                    <span class="metric-value" id="metric-total">0</span>
+                    <span class="metric-desc"><i class="fa-solid fa-arrow-trend-up trend-up"></i> Scraped from Local DB</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">Highly Qualified</span>
+                    <span class="metric-value" id="metric-qualified">0</span>
+                    <span class="metric-desc">Priority score >= 80</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">Avg Match Rate</span>
+                    <span class="metric-value" id="metric-match">0%</span>
+                    <span class="metric-desc">AI Tech Suitability</span>
+                </div>
+                <div class="metric-card">
+                    <span class="metric-title">CRM Synced</span>
+                    <span class="metric-value" id="metric-crm">0</span>
+                    <span class="metric-desc">Pushed to Salesforce</span>
+                </div>
+            </section>
+
+            <!-- Interactive Visualization Split Section -->
+            <section class="visualization-grid" id="vis-section">
+                
+                <!-- Live Coordinates Mapping Card -->
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-earth-americas"></i> Lead HQ Geographical Locations</span>
+                        <span class="metric-desc">Interactive Map Grid</span>
+                    </div>
+                    <div id="leads-map" class="map-container"></div>
+                </div>
+
+                <!-- Async Scraper Command & Output Terminal -->
+                <div class="card console-card">
+                    <div class="card-header">
+                        <span class="card-title"><i class="fa-solid fa-terminal"></i> AI Crawler Live Execution Console</span>
+                    </div>
+                    
+                    <div class="scraper-bar">
+                        <input type="text" id="crawl-domain" class="input-field" placeholder="Enter target website domain (e.g. airbnb.com)">
+                        <button class="btn btn-primary" onclick="triggerConsoleScrape()">
+                            <i class="fa-solid fa-play"></i> Run Scraper
+                        </button>
+                    </div>
+
+                    <div id="console-output" class="console-terminal">
+                        <span class="log-info">[System Log]: Crawler engine idle. Enter a domain above to kickstart live enrichment.</span>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Table Lead Directory Grid -->
+            <section class="leads-table-container">
+                <div class="table-header-bar">
+                    <span class="card-title"><i class="fa-solid fa-table-list"></i> Target Accounts Directory</span>
+                    
+                    <div class="search-filter-controls">
+                        <input type="text" id="lead-search" class="input-field" style="padding: 8px 16px; width: 240px;" placeholder="Search target domains or techs..." oninput="fetchLeads()">
+                        
+                        <select id="filter-sector" class="select-filter" onchange="fetchLeads()">
+                            <option value="">All Sectors</option>
+                            <option value="Technology & SaaS">Technology & SaaS</option>
+                            <option value="AI & Developer Tools">AI & Developer Tools</option>
+                            <option value="Finance & Fintech">Finance & Fintech</option>
+                            <option value="Design & SaaS">Design & SaaS</option>
+                            <option value="Entertainment & Media">Entertainment & Media</option>
+                        </select>
+
+                        <select id="filter-status" class="select-filter" onchange="fetchLeads()">
+                            <option value="">All Statuses</option>
+                            <option value="New">New</option>
+                            <option value="Enriched">Enriched</option>
+                            <option value="Contacted">Contacted</option>
+                            <option value="SQL">SQL</option>
+                            <option value="Lost">Lost</option>
+                        </select>
+                    </div>
+                </div>
+
+                <table class="leads-table">
+                    <thead>
+                        <tr>
+                            <th>Company Account</th>
+                            <th>Market Sector</th>
+                            <th>Location</th>
+                            <th>Priority Score</th>
+                            <th>Primary Technologies</th>
+                            <th>Status</th>
+                            <th>Action Panel</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-list">
+                        <!-- Populated by JavaScript AJAX -->
+                    </tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Sliding Lead Details Drawer Panel -->
+    <div id="detailDrawer" class="drawer">
+        <div class="drawer-header">
+            <div class="drawer-title">
+                <h2 id="drawer-company-name">Company Name</h2>
+                <p id="drawer-domain">domain.com</p>
+            </div>
+            <button class="drawer-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="drawer-section">
+            <h3 class="drawer-section-title">AI Scoring Analysis</h3>
+            <div class="drawer-info-grid">
+                <div class="info-item">
+                    <span class="info-label">Priority Score</span>
+                    <span class="info-value" id="drawer-priority" style="color: var(--accent);">0/100</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">AI Match Suitability</span>
+                    <span class="info-value" id="drawer-match-rate">0%</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Growth Metric</span>
+                    <span class="info-value" id="drawer-growth">Stable</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Staff / Headcount</span>
+                    <span class="info-value" id="drawer-employees">1-10</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Estimated Revenue</span>
+                    <span class="info-value" id="drawer-revenue">$0M</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">HQ Coordinates</span>
+                    <span class="info-value" id="drawer-coords">0.0, 0.0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Corporate Phone</span>
+                    <span class="info-value" id="drawer-phone">-</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="drawer-section">
+            <h3 class="drawer-section-title">Detected Technologies</h3>
+            <div class="tech-pills" id="drawer-tech-pills" style="max-width: 100%;">
+                <!-- Tech pills -->
+            </div>
+        </div>
+
+        <!-- Suraj's Custom Cybersecurity Perimeter Exposure Section -->
+        <div class="drawer-section" style="border-top: 1px dashed var(--border-color); padding-top: 16px;">
+            <h3 class="drawer-section-title"><i class="fa-solid fa-shield-halved" style="color: var(--accent); margin-right: 6px;"></i> Cybersecurity Perimeter Exposure</h3>
+            
+            <div style="display: flex; align-items: center; justify-content: space-between; background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; margin-bottom: 12px;">
+                <span style="font-size: 13px; font-weight: 600;">Hygiene Grade:</span>
+                <span id="drawer-security-score" class="priority-meter" style="width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-size: 14px; font-weight: 700; font-family: var(--font-mono); line-height: 1;">A</span>
+            </div>
+            
+            <div style="margin-bottom: 12px;">
+                <span class="info-label">Active Subdomains Mapped</span>
+                <div class="tech-pills" id="drawer-subdomains" style="max-width: 100%; margin-top: 6px; font-family: var(--font-mono); display: flex; flex-wrap: wrap; gap: 6px;">
+                    <!-- Subdomain pills -->
+                </div>
+            </div>
+            
+            <div>
+                <span class="info-label">Mapped Exposure Points / Vulnerabilities</span>
+                <ul id="drawer-vulnerabilities" style="list-style: none; margin-top: 6px; display: flex; flex-direction: column; gap: 8px; padding-left: 0;">
+                    <!-- Vulnerability bullet points -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="drawer-section">
+            <h3 class="drawer-section-title">SMTP Verified Contacts</h3>
+            <p id="drawer-contacts" style="font-size: 13px; color: var(--text-secondary); background-color: var(--bg-main); border: 1px solid var(--border-color); border-radius: 8px; padding: 12px; word-break: break-all;">No verified contacts harvested.</p>
+        </div>
+
+        <div class="drawer-section">
+            <h3 class="drawer-section-title">Notes / Remarks</h3>
+            <textarea id="drawer-notes-input" class="input-field" style="width: 100%; height: 80px; resize: none; margin-bottom: 8px;" placeholder="Add private notes..."></textarea>
+            <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="saveDrawerNotes()">Save Notes</button>
+        </div>
+
+        <div class="drawer-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                <h3 class="drawer-section-title" style="margin-bottom: 0;">AI Generated Personalized Outreach</h3>
+                <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;" onclick="triggerEmailGeneration()">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> Rewrite Copy
+                </button>
+            </div>
+            <div id="drawer-email" class="email-box">Click generate to build email...</div>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="copyOutreachEmail()">
+                    <i class="fa-solid fa-copy"></i> Copy Email
+                </button>
+                <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="copyFullPerimeterReport()">
+                    <i class="fa-solid fa-file-shield"></i> Copy Report
+                </button>
+            </div>
+        </div>
+
+        <div class="drawer-section" style="border-top: 1px solid var(--border-color); padding-top: 20px;">
+            <h3 class="drawer-section-title">Enterprise System Sync</h3>
+            <div style="display: flex; gap: 8px;">
+                <button class="btn btn-primary" style="flex: 1; justify-content: center;" onclick="syncLeadCRM('Salesforce')">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Sync Salesforce
+                </button>
+                <button class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="syncLeadCRM('HubSpot')">
+                    <i class="fa-solid fa-arrows-spin"></i> Sync HubSpot
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals Container Overlays -->
+    
+    <!-- Add Lead Modals -->
+    <div id="addLeadModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Add Target Account</h2>
+                <button class="modal-close" onclick="closeModal('addLeadModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <form id="add-lead-form" onsubmit="submitNewLead(event)">
+                <div class="form-group">
+                    <label for="add-domain">Website Domain*</label>
+                    <input type="text" id="add-domain" class="input-field" placeholder="e.g. airbnb.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="add-company">Company Name (Optional)</label>
+                    <input type="text" id="add-company" class="input-field" placeholder="e.g. Airbnb">
+                </div>
+                <div class="form-group">
+                    <label for="add-sector">Sector</label>
+                    <select id="add-sector" class="input-field" style="background-color: var(--bg-card-hover);">
+                        <option value="Technology & SaaS">Technology & SaaS</option>
+                        <option value="AI & Developer Tools">AI & Developer Tools</option>
+                        <option value="Finance & Fintech">Finance & Fintech</option>
+                        <option value="Design & SaaS">Design & SaaS</option>
+                        <option value="Entertainment & Media">Entertainment & Media</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="add-location">HQ Location</label>
+                    <input type="text" id="add-location" class="input-field" placeholder="e.g. San Francisco, CA">
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeModal('addLeadModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Save Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Import CSV Modal -->
+    <div id="importModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Bulk CSV Loader</h2>
+                <button class="modal-close" onclick="closeModal('importModal')"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="margin-bottom: 20px; font-size: 13px; color: var(--text-secondary);">
+                <p>Upload a CSV file containing hot targets. Required column:</p>
+                <code style="display: block; background-color: var(--bg-main); padding: 8px; border-radius: 4px; font-family: var(--font-mono); margin-top: 8px; border: 1px solid var(--border-color);">domain, company_name, sector, location</code>
+            </div>
+            <form id="import-csv-form" onsubmit="submitCSVImport(event)">
+                <div class="form-group">
+                    <label for="csv-file">Select CSV File</label>
+                    <input type="file" id="csv-file" class="input-field" accept=".csv" required>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="btn btn-secondary" style="flex: 1; justify-content: center;" onclick="closeModal('importModal')">Cancel</button>
+                    <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center;">Upload & Import</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Active Toast Anchor -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Leaflet.js Mapping Library -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    
+    <!-- Custom Application Javascript Engine -->
+    <script src="/static/js/app.js"></script>
+
+</body>
+</html>
