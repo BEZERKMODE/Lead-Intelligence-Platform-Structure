@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\test_imports.py", line 6, in <module>
+    from backend.app import app
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\app.py", line 5, in <module>
+    from backend.api.routes import router
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\routes.py", line 10, in <module>
+    from backend.api import auth_routes
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\auth_routes.py", line 5, in <module>
+    from backend.auth import create_access_token
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\auth.py", line 4, in <module>
+    from jose import jwt
+ModuleNotFoundError: No module named 'jose'
+Testing Application Imports...
+
+--- ERROR FOUND ---
+-------------------
+

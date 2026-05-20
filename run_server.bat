@@ -10,9 +10,14 @@ echo [*] URL:      http://localhost:5002
 echo.
 echo [1/2] Scheduling browser launch in 2 seconds...
 start /b cmd /c "timeout /t 2 /nobreak >nul 2>&1 && start http://localhost:5002"
-echo [2/2] Starting server (logs will appear below)...
+echo [2/2] Running Diagnostics...
+set PYTHONPATH=%cd%
+python test_imports.py > error_log.txt 2>&1
 echo.
-python backend\app.py
+echo Starting server (logs will appear below)...
+echo.
+set PYTHONPATH=%cd%
+python -m backend.app
 echo.
 echo =====================================================================
 echo [!] Server stopped.

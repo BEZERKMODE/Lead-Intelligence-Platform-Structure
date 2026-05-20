@@ -1,7 +1,16 @@
 from fastapi import APIRouter
 
+from backend.services.ai_scoring_engine import AIScoringEngine
+
 router = APIRouter()
 
-@router.post("/score")
-def score_lead(data: dict):
-    return {"status": "scored"}
+scoring_engine = AIScoringEngine()
+
+@router.post("/")
+def calculate_score(data: dict):
+
+    score = scoring_engine.calculate_score(data)
+
+    return {
+        "score": score
+    }

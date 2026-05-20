@@ -7,6 +7,7 @@ from backend.api import crm
 from backend.api import workflows
 from backend.api import monitoring
 from backend.api import billing
+from backend.api import auth_routes
 
 router = APIRouter()
 
@@ -18,3 +19,4 @@ router.include_router(crm.router, prefix="/crm", tags=["CRM"])
 router.include_router(workflows.router, prefix="/workflows", tags=["Workflows"])
 router.include_router(monitoring.router, prefix="/monitoring", tags=["Monitoring"])
 router.include_router(billing.router, prefix="/billing", tags=["Billing"])
+router.include_router(auth_routes.router, prefix="/auth", tags=["Auth"])
