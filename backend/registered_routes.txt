@@ -1,0 +1,24 @@
+Registered Routes:
+Path: /openapi.json, Name: openapi, Methods: {'GET', 'HEAD'}
+Path: /docs, Name: swagger_ui_html, Methods: {'GET', 'HEAD'}
+Path: /docs/oauth2-redirect, Name: swagger_ui_redirect, Methods: {'GET', 'HEAD'}
+Path: /redoc, Name: redoc_html, Methods: {'GET', 'HEAD'}
+Path: /static, Name: static, Methods: None
+Path: /metrics, Name: None, Methods: None
+Path: /api/leads, Name: get_leads, Methods: {'GET'}
+Path: /api/leads, Name: create_lead, Methods: {'POST'}
+Path: /api/leads/scrape-stream, Name: scrape_stream, Methods: {'GET'}
+Path: /api/leads/{lead_id}, Name: get_lead, Methods: {'GET'}
+Path: /api/leads/{lead_id}, Name: update_lead, Methods: {'PUT'}
+Path: /api/leads/{lead_id}, Name: delete_lead, Methods: {'DELETE'}
+Path: /api/leads/{lead_id}/enrich-async, Name: enrich_lead_async, Methods: {'POST'}
+Path: /api/leads/{lead_id}/sync, Name: sync_crm, Methods: {'POST'}
+Path: /api/leads/{lead_id}/sync-crm, Name: sync_crm, Methods: {'POST'}
+Path: /api/leads/{lead_id}/email, Name: generate_outreach_email_route, Methods: {'POST'}
+Path: /api/analytics, Name: get_dashboard_stats, Methods: {'GET'}
+Path: /api/dashboard-stats, Name: get_dashboard_stats, Methods: {'GET'}
+Path: /api/export-csv, Name: export_csv, Methods: {'GET'}
+Path: /api/leads/import, Name: import_csv, Methods: {'POST'}
+Path: /api/import-csv, Name: import_csv, Methods: {'POST'}
+Path: /api/webhook/new-lead, Name: new_lead_webhook, Methods: {'POST'}
+Path: /api/search, Name: semantic_search, Methods: {'POST'}

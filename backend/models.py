@@ -1,48 +1,57 @@
-class LeadModel:
-    def __init__(self, data):
-        self.id = data.get('id')
-        self.company_name = data.get('company_name', '')
-        self.domain = data.get('domain', '')
-        self.sector = data.get('sector', 'Unknown')
-        self.location = data.get('location', 'Global')
-        self.latitude = data.get('latitude', 0.0)
-        self.longitude = data.get('longitude', 0.0)
-        self.revenue = data.get('revenue', '$0M')
-        self.employees = data.get('employees', '1-10')
-        self.technologies = data.get('technologies', '') # comma separated
-        self.contacts = data.get('contacts', '') # JSON or comma separated string
-        self.priority_score = data.get('priority_score', 0)
-        self.ai_match_rate = data.get('ai_match_rate', 0)
-        self.growth_trend = data.get('growth_trend', 'Stable')
-        self.status = data.get('status', 'New')
-        self.last_scraped = data.get('last_scraped', '')
-        self.notes = data.get('notes', '')
-        self.security_score = data.get('security_score', 'A')
-        self.subdomains = data.get('subdomains', '')
-        self.vulnerabilities = data.get('vulnerabilities', '')
-        self.phone = data.get('phone', '')
+from sqlalchemy import Column, Integer, String, Float, Boolean, Text, DateTime
+from sqlalchemy.orm import relationship
+from datetime import datetime
+from backend.database import Base, engine
 
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'company_name': self.company_name,
-            'domain': self.domain,
-            'sector': self.sector,
-            'location': self.location,
-            'latitude': self.latitude,
-            'longitude': self.longitude,
-            'revenue': self.revenue,
-            'employees': self.employees,
-            'technologies': [t.strip() for t in self.technologies.split(',')] if self.technologies else [],
-            'contacts': self.contacts,
-            'priority_score': self.priority_score,
-            'ai_match_rate': self.ai_match_rate,
-            'growth_trend': self.growth_trend,
-            'status': self.status,
-            'last_scraped': self.last_scraped,
-            'notes': self.notes,
-            'security_score': self.security_score,
-            'subdomains': [s.strip() for s in self.subdomains.split(',')] if self.subdomains else [],
-            'vulnerabilities': [v.strip() for v in self.vulnerabilities.split(',')] if self.vulnerabilities else [],
-            'phone': self.phone
-        }
+# Detect if using SQLite fallback
+is_sqlite = engine.url.drivername == "sqlite"
+
+if is_sqlite:
+    VectorType = Text
+else:
+    from pgvector.sqlalchemy import Vector
+    VectorType = Vector(384)
+
+class LeadModel(Base):
+    __tablename__ = "leads"
+    
+    id = Column(Integer, primary_key=True, index=True)
+    company_name = Column(String, index=True, nullable=False)
+    domain = Column(String, unique=True, index=True, nullable=False)
+    sector = Column(String, index=True)
+    location = Column(String)
+    latitude = Column(Float)
+    longitude = Column(Float)
+    revenue = Column(String)
+    employees = Column(String)
+    technologies = Column(Text)
+    contacts = Column(Text)
+    priority_score = Column(Integer, default=0)
+    ai_match_rate = Column(Integer, default=0)
+    growth_trend = Column(String)
+    status = Column(String, default="New", index=True)
+    last_scraped = Column(DateTime, default=datetime.utcnow)
+    notes = Column(Text)
+    security_score = Column(String, default="A")
+    subdomains = Column(Text)
+    vulnerabilities = Column(Text)
+    phone = Column(String)
+    
+    # Semantic embedding vector
+    embedding = Column(VectorType)
+
+
+class TenantModel(Base):
+    __tablename__ = "tenants"
+    id = Column(Integer, primary_key=True, index=True)
+    workspace_name = Column(String, unique=True, index=True)
+    api_key = Column(String, unique=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+class WorkflowRun(Base):
+    __tablename__ = "workflow_runs"
+    id = Column(Integer, primary_key=True, index=True)
+    lead_id = Column(Integer, index=True)
+    workflow_name = Column(String)
+    status = Column(String)
+    started_at = Column(DateTime, default=datetime.utcnow)

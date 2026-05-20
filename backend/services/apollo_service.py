@@ -1,5 +1,5 @@
 import requests
-from backend.config import Config
+from backend.config import settings
 
 class ApolloService:
     """
@@ -15,7 +15,7 @@ class ApolloService:
         Returns dict with: name, industry, employees, city, country, revenue,
         technologies, linkedin_url, phone, founded_year.
         """
-        api_key = Config.APOLLO_API_KEY
+        api_key = settings.APOLLO_API_KEY
         if not api_key or api_key.strip() in ('', 'YOUR_APOLLO_API_KEY'):
             return None
 
@@ -72,7 +72,7 @@ class ApolloService:
     @staticmethod
     def search_company(domain: str):
         """Search for people at a company by domain."""
-        api_key = Config.APOLLO_API_KEY
+        api_key = settings.APOLLO_API_KEY
         if not api_key or api_key.strip() in ('', 'YOUR_APOLLO_API_KEY'):
             return ApolloService._mock_contacts(domain)
 
@@ -122,3 +122,17 @@ class ApolloService:
             for p in data.get("people", [])
             if p.get("email")
         ]
+
+    # Modular enterprise search_people method
+    def search_people(
+        self,
+        company
+    ):
+        response = requests.post(
+            "https://api.apollo.io/v1/mixed_people/search",
+            json={
+                "q_organization_name": company,
+                "api_key": settings.APOLLO_API_KEY
+            }
+        )
+        return response.json()

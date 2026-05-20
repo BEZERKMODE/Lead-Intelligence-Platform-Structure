@@ -1,0 +1,16 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+pgvector
+alembic
+networkx
+sentence-transformers
+prometheus-client
+PyJWT
+slowapi
+celery
+redis
+python-dotenv
+requests
+openai

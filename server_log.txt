@@ -1,0 +1,18 @@
+INFO:     Will watch for changes in these directories: ['C:\\Users\\Admin$\\Desktop\\lead-intelligence-platform']
+INFO:     Uvicorn running on http://0.0.0.0:5002 (Press CTRL+C to quit)
+INFO:     Started reloader process [14328] using WatchFiles
+INFO:     Started server process [7440]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  WatchFiles detected changes in 'backend\app.py'. Reloading...
+[DB] PostgreSQL is offline. Falling back to local SQLite database.
+[*] Lead Intelligence Platform starting on http://localhost:5002
+ INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [7440]
+[DB] PostgreSQL is offline. Falling back to local SQLite database.
+INFO:     Started server process [13528]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+^C

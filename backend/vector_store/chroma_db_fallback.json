@@ -1,0 +1,11 @@
+{
+    "1": {
+        "document": "Company Name: Stripe | Domain: stripe.com | Sector: Information Technology & Services | HQ: South San Francisco, United States | Employees: 8000 | Estimated Revenue: 5.1B | Technologies: .NET, 3M 360 Encompass - Health Analytics Suite, AI, ANGEL LMS, AWS Analytics, AWS SDK for JavaScript, AWS Trusted Advisor, Active Campaign | Security hygiene: A | AI Suitability: 65% | Notes: Prospect located in South San Francisco, United States. Operating in the Information Technology & Services market segment with an estimated 8000 employees. Employs a robust stack including .NET, 3M 360 Encompass - Health Analytics Suite, AI, ANGEL LMS, AWS Analytics, AWS SDK for JavaScript, AWS Trusted Advisor, Active Campaign.",
+        "metadata": {
+            "domain": "stripe.com",
+            "sector": "Information Technology & Services",
+            "priority_score": 65,
+            "security_score": "A"
+        }
+    }
+}
