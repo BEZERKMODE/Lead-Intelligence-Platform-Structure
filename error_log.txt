@@ -3,13 +3,17 @@ Traceback (most recent call last):
     from backend.app import app
   File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\app.py", line 8, in <module>
     from backend.api.routes import router
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\routes.py", line 9, in <module>
-    from backend.api import billing
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\billing.py", line 15
-    return {
-           ^
-SyntaxError: '{' was never closed
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\routes.py", line 4, in <module>
+    from backend.api import enrichment
+  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\enrichment.py", line 11
+    0) > 100:
+     ^
+SyntaxError: unmatched ')'
 Testing Application Imports...
+[!] PostgreSQL connection failed: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "lead_intel_user"
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+[*] Database: Falling back to SQLite auto-fallback.
 
 --- ERROR FOUND ---
 -------------------
