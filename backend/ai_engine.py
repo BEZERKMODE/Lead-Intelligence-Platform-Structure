@@ -1,6 +1,6 @@
 import time
 import random
-from backend.config import Config
+from backend.config import settings
 
 class AIEngine:
     @staticmethod

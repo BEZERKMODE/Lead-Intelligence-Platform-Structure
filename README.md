@@ -339,11 +339,33 @@ npm run dev
 
 # Docker Deployment
 
-## Build
+## Build & Start Services
 
 ```bash
 docker-compose up --build
 ```
+
+---
+
+# pgAdmin 4 Administration Console
+
+The platform includes **pgAdmin 4** in the Docker Compose stack for easy database administration.
+
+## Login Details
+
+- **URL**: [http://localhost:5050](http://localhost:5050)
+- **Default Email**: `admin@kinstechnology.com`
+- **Default Password**: `supersecurepassword123`
+
+## Auto-Imported Server Connection
+
+A database connection named **Lead Intelligence Database** is pre-configured and automatically registered on the sidebar. You can connect immediately with the following parameters (internally pre-configured):
+
+- **Host Name**: `postgres`
+- **Port**: `5432`
+- **Maintenance Database**: `lead_intel_db`
+- **Username**: `lead_intel_user`
+- **Password**: `supersecurepassword123`
 
 ---
 

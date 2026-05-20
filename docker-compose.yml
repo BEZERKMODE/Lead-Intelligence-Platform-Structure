@@ -21,6 +21,21 @@ services:
       - "6379:6379"
     restart: unless-stopped
 
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: lead_intel_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@kinstechnology.com
+      PGADMIN_DEFAULT_PASSWORD: supersecurepassword123
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
+    ports:
+      - "5050:80"
+    volumes:
+      - ./postgres/servers.json:/pgadmin4/servers.json:ro
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
   prometheus:
     image: prom/prometheus:latest
     container_name: lead_intel_prometheus

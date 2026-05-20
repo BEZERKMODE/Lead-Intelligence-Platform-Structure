@@ -1,20 +1,6 @@
-Traceback (most recent call last):
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\test_imports.py", line 6, in <module>
-    from backend.app import app
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\app.py", line 8, in <module>
-    from backend.api.routes import router
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\routes.py", line 4, in <module>
-    from backend.api import enrichment
-  File "C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\api\enrichment.py", line 11
-    0) > 100:
-     ^
-SyntaxError: unmatched ')'
 Testing Application Imports...
-[!] PostgreSQL connection failed: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  password authentication failed for user "lead_intel_user"
+[DB] PostgreSQL connection failed ((psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  role "lead_intel_user" does not exist
 
-(Background on this error at: https://sqlalche.me/e/20/e3q8)
-[*] Database: Falling back to SQLite auto-fallback.
-
---- ERROR FOUND ---
--------------------
-
+(Background on this error at: https://sqlalche.me/e/20/e3q8)). Falling back to local SQLite database.
+[DB] SQLite database initialized at C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\database.db
+SUCCESS: Application imported perfectly! No syntax errors found.

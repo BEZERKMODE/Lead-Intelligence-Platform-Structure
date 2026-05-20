@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.celery_worker import celery_app
 from backend.database import SessionLocal
-from backend.models import LeadModel, is_sqlite
+from backend.models import LeadModel, is_sqlite, use_pgvector
 from backend.scraper.scraper import LeadScraper
 from backend.services.apollo_service import ApolloService
 from backend.scraper.email_verifier import EmailVerifier
@@ -195,7 +195,7 @@ def save_vector_embedding(lead_id, *args):
             import random
             emb = [random.uniform(-0.1, 0.1) for _ in range(384)]
         
-        if is_sqlite:
+        if not use_pgvector:
             import json
             lead.embedding = json.dumps(emb)
         else:
