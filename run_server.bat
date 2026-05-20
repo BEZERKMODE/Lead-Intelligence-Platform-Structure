@@ -17,7 +17,7 @@ echo.
 echo Starting server (logs will appear below)...
 echo.
 set PYTHONPATH=%cd%
-python -m backend.app
+python -m uvicorn backend.app:app --host 0.0.0.0 --port 5002 --reload
 echo.
 echo =====================================================================
 echo [!] Server stopped.

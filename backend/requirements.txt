@@ -14,3 +14,8 @@ redis
 python-dotenv
 requests
 openai
+jinja2
+aiofiles
+python-jose[cryptography]
+passlib[bcrypt]
+
