@@ -1,0 +1,76 @@
+:root {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  color: #1f2937;
+  background: #f3f4f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(900px, 100%);
+  background: white;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+}
+
+h1 {
+  margin: 0 0 16px;
+  font-size: 2rem;
+}
+
+button {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  font-size: 1rem;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 16px;
+  background: #f9fafb;
+}
+
+.message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.message.success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+pre {
+  overflow: auto;
+}
+
+.note {
+  margin-top: 20px;
+  font-size: 0.95rem;
+  color: #4b5563;
+}

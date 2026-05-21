@@ -10,6 +10,7 @@ from backend.api import billing
 from backend.api import auth_routes
 from backend.api import leads
 from backend.api import analytics
+from backend.api import enterprise_intelligence
 
 router = APIRouter()
 
@@ -26,4 +27,5 @@ router.include_router(workflows.router, prefix="/workflows", tags=["Workflows"])
 router.include_router(monitoring.router, prefix="/monitoring", tags=["Monitoring"])
 router.include_router(billing.router, prefix="/billing", tags=["Billing"])
 router.include_router(auth_routes.router, prefix="/auth", tags=["Auth"])
+router.include_router(enterprise_intelligence.router, prefix="/enterprise-intelligence", tags=["Enterprise Intelligence"])
 

@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "Enterprise Intelligence API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Collection for the /enterprise-intelligence endpoint of the Lead Intelligence Platform."
+  },
+  "item": [
+    {
+      "name": "Analyze Enterprise Lead",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:5003/enterprise-intelligence/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "5003",
+          "path": ["enterprise-intelligence", ""]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"company_name\": \"Example Ltd\",\n  \"domain\": \"example.com\",\n  \"city\": \"Bangalore\",\n  \"state\": \"Karnataka\"\n}"
+        }
+      },
+      "response": []
+    }
+  ]
+}

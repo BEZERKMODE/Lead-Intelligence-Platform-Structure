@@ -14,6 +14,8 @@ redis
 python-dotenv
 requests
 openai
+beautifulsoup4
+dnspython
 jinja2
 aiofiles
 python-jose[cryptography]

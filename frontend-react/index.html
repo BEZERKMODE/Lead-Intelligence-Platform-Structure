@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lead Intelligence Platform</title>
+    <style>
+      :root {
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        color: #1f2937;
+        background: #f3f4f6;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      .app-shell {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .card {
+        width: min(900px, 100%);
+        background: white;
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 24px 80px rgba(15, 23, 42, 0.12);
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: 2rem;
+      }
+      button {
+        border: none;
+        background: #2563eb;
+        color: white;
+        padding: 12px 20px;
+        font-size: 1rem;
+        border-radius: 12px;
+        cursor: pointer;
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      .message {
+        margin-top: 20px;
+        padding: 16px;
+        border-radius: 16px;
+        background: #f9fafb;
+      }
+      .message.error {
+        background: #fee2e2;
+        color: #991b1b;
+      }
+      .message.success {
+        background: #ecfdf5;
+        color: #065f46;
+      }
+      pre {
+        overflow: auto;
+      }
+      .note {
+        margin-top: 20px;
+        font-size: 0.95rem;
+        color: #4b5563;
+      }
+      .code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root" class="app-shell"></div>
+    <script type="module">
+      import React from 'https://esm.sh/react@18.3.1'
+      import ReactDOM from 'https://esm.sh/react-dom@18.3.1'
+
+      const BACKEND_URL = 'http://localhost:5003'
+
+      function App() {
+        const [response, setResponse] = React.useState(null)
+        const [loading, setLoading] = React.useState(false)
+        const [error, setError] = React.useState(null)
+
+        const runAnalysis = async () => {
+          setLoading(true)
+          setError(null)
+          setResponse(null)
+          try {
+            const res = await fetch(`${BACKEND_URL}/enterprise-intelligence/`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                company_name: 'Example Ltd',
+                domain: 'example.com',
+                city: 'Bangalore',
+                state: 'Karnataka'
+              })
+            })
+            if (!res.ok) {
+              throw new Error(`Request failed with status ${res.status}`)
+            }
+            setResponse(await res.json())
+          } catch (err) {
+            setError(err.message)
+          } finally {
+            setLoading(false)
+          }
+        }
+
+        return React.createElement(
+          'div',
+          { className: 'card' },
+          React.createElement('h1', null, 'Lead Intelligence Platform'),
+          React.createElement('p', null, 'Static frontend is running from a browser-hosted page.'),
+          React.createElement(
+            'button',
+            { onClick: runAnalysis, disabled: loading },
+            loading ? 'Analyzing...' : 'Run sample enterprise analysis'
+          ),
+          error && React.createElement('div', { className: 'message error' }, error),
+          response &&
+            React.createElement(
+              'div',
+              { className: 'message success' },
+              React.createElement('pre', null, JSON.stringify(response, null, 2))
+            ),
+          React.createElement(
+            'div',
+            { className: 'note' },
+            'Use ',
+            React.createElement('span', { className: 'code' }, 'http://localhost:5173'),
+            ' to access the frontend and ',
+            React.createElement('span', { className: 'code' }, 'http://localhost:5003'),
+            ' for the backend.'
+          )
+        )
+      }
+
+      ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App))
+    </script>
+  </body>
+</html>

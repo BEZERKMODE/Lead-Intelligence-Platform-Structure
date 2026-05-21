@@ -6,7 +6,7 @@ load_dotenv()
 class Settings:
     DATABASE_URL = os.getenv(
         "DATABASE_URL",
-        "postgresql://lead_intel_user:supersecurepassword123@localhost:5432/lead_intel_db"
+        "postgresql://postgres:password@localhost:5432/lead_db"
     )
     REDIS_URL = os.getenv(
         "REDIS_URL",
@@ -19,8 +19,10 @@ class Settings:
     JWT_ALGORITHM = "HS256"
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     APOLLO_API_KEY = os.getenv("APOLLO_API_KEY")
-    HUNTER_API_KEY = os.getenv("HUNTER_API_KEY")
     ZEROBOUNCE_API_KEY = os.getenv("ZEROBOUNCE_API_KEY")
+    BIGDATACLOUD_API_KEY = os.getenv("BIGDATACLOUD_API_KEY")
+    IPINFO_API_TOKEN = os.getenv("IPINFO_API_TOKEN")
+    HUNTER_API_KEY = os.getenv("HUNTER_API_KEY")
     HUBSPOT_API_KEY = os.getenv("HUBSPOT_API_KEY")
 
 settings = Settings()
