@@ -58,3 +58,13 @@ yarn-error.log*
 *.swp
 .DS_Store
 Thumbs.db
+*.bat
+*.log
+error_log.txt
+server_log.txt
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.db

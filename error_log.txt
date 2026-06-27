@@ -1,6 +1,0 @@
-Testing Application Imports...
-[DB] PostgreSQL connection failed ((psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: FATAL:  role "lead_intel_user" does not exist
-
-(Background on this error at: https://sqlalche.me/e/20/e3q8)). Falling back to local SQLite database.
-[DB] SQLite database initialized at C:\Users\Admin$\Desktop\lead-intelligence-platform\backend\database.db
-SUCCESS: Application imported perfectly! No syntax errors found.

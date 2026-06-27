@@ -239,7 +239,7 @@ backend/ml/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/your-repo/lead-intelligence-platform.git
+git clone https://github.com/BEZERKMODE/Lead-Intelligence-Platform-Structure.git
 ```
 
 ---
